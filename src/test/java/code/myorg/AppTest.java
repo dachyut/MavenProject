@@ -32,4 +32,10 @@ public class AppTest
     	App ob = new App();
 		assertEquals(2, ob.divide(10, 5));
 	}
+    
+    @Test
+	public void test3() {
+    	App ob = new App();
+		assertEquals(40, ob.multiply(10, 4));
+	}
 }
