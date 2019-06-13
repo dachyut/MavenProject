@@ -24,7 +24,7 @@ pipeline {
 		stage ('Scripts') {
 				steps {
 					echo 'Scripts running stage...'
-					powershell '.\PSscript.ps1'
+					powershell "PSscript.ps1"
 				}
 		}
 	}
