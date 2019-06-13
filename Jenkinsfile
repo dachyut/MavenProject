@@ -10,7 +10,7 @@ pipeline {
             
             steps {
 				echo 'Build stage...'
-                git url: 'D:\\Maven Project\\my-maven-project'
+                //git url: 'D:\\Maven Project\\my-maven-project'
             }
         }
 		
