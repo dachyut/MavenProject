@@ -70,30 +70,30 @@ public class AppTest
 		assertEquals(40, ob.multiply(10, 4));
 	}
     
-    @Test
-    public void test4() {
-        String obj1 = "junit";
-        String obj2 = "junit";
-        String obj3 = "test";
-        String obj4 = "test";
-        String obj5 = null;
-        int var1 = 1;
-        int var2 = 2;
-        int[] arithmetic1 = { 1, 2, 3 };
-        int[] arithmetic2 = { 1, 2, 3 };
- 
-        assertEquals(obj1, obj2);
- 
-        assertSame(obj3, obj4);
- 
-        assertNotSame(obj2, obj4);
- 
-        assertNotNull(obj1);
- 
-        assertNull(obj5);
- 
-        assertTrue(obj5,false);
- 
-        assertArrayEquals(arithmetic1, arithmetic2);
-    }
+//    @Test
+//    public void test4() {
+//        String obj1 = "junit";
+//        String obj2 = "junit";
+//        String obj3 = "test";
+//        String obj4 = "test";
+//        String obj5 = null;
+//        int var1 = 1;
+//        int var2 = 2;
+//        int[] arithmetic1 = { 1, 2, 3 };
+//        int[] arithmetic2 = { 1, 2, 3 };
+// 
+//        assertEquals(obj1, obj2);
+// 
+//        assertSame(obj3, obj4);
+// 
+//        assertNotSame(obj2, obj1);
+// 
+//        assertNotNull(obj1);
+// 
+//        assertNull(obj5);
+// 
+//        assertTrue(obj5,false);
+// 
+//        assertArrayEquals(arithmetic1, arithmetic2);
+//    }
 }
