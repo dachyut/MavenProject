@@ -23,7 +23,7 @@ pipeline {
     
         stage ('Test') {
             steps {
-                echo 'Testing stage...'
+                echo 'Testing stage....'
                 bat "mvn test"
 			}
 		}		
