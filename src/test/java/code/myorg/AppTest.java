@@ -92,7 +92,7 @@ public class AppTest
  
         assertNull(obj5);
  
-        assertTrue(var1,var2);
+        assertTrue(obj5,false);
  
         assertArrayEquals(arithmetic1, arithmetic2);
     }
