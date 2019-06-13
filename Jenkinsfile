@@ -13,6 +13,13 @@ pipeline {
                 git url: 'D:\\Maven Project\\my-maven-project'
             }
         }
+		
+		stage ('Scripts') {
+				steps {
+					echo 'Scripts running stage...'
+					powershell "PSscript.ps1"
+				}
+		}
     
         stage ('Test') {
             steps {
@@ -20,12 +27,5 @@ pipeline {
                 bat "mvn test"
 			}
 		}		
-			
-		stage ('Scripts') {
-				steps {
-					echo 'Scripts running stage...'
-					powershell "PSscript.ps1"
-				}
-		}
 	}
 }
