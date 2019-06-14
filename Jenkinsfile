@@ -25,6 +25,7 @@ pipeline {
             steps {
                 echo 'Testing stage...'
                 bat "mvn test"
+				bat "java -jar $WORKSPACE/src/main/java/code/myorg/Calculator/MyCalculator.jar"
 			}
 		}		
 	}
