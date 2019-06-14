@@ -10,6 +10,7 @@ pipeline {
             
             steps {
 				echo 'Build stage...'
+				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 //git url: 'D:\\Maven Project\\my-maven-project'
             }
         }
@@ -17,7 +18,7 @@ pipeline {
 		stage ('Scripts') {
 				steps {
 					echo 'Scripts running stage...'
-					powershell "PSscript.ps1"
+					powershell "PSscript.ps1"					
 				}
 		}
     
@@ -25,6 +26,8 @@ pipeline {
             steps {
                 echo 'Testing stage....'
                 bat "mvn test"
+				
+				bat "java -jar $WORKSPACE\src\main\java\code\myorg\Calculator\MyCalculator.jar"
 			}
 		}		
 	}
