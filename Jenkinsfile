@@ -5,7 +5,7 @@ node {
                 echo "BUILD_DISPLAY_NAME: ${env.BUILD_DISPLAY_NAME}"
                 echo "JOB_NAME: ${env.JOB_NAME}"
                 echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"
-                //sh 'echo "artifact file" > generatedFile.txt'
+                sh 'echo "artifact file" > generatedFile.txt'
                 def skipBuild = getLastSuccessfulBuild()
                 echo "LSB: ${skipBuild}"
             
