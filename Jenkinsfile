@@ -12,8 +12,13 @@ node {
                 archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
         }  
 
-        stage (test) {
-            echo "Testing stage"
+        stage (test1) {
+            echo "Testing stage1"
+            echo "Hello...."
+        }
+
+        stage (test2) {
+            echo "Testing stage2"
             echo "Hello....
         }      
 }
