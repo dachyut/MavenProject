@@ -26,7 +26,7 @@ Boolean getLastSuccessfulBuild() {
             filter: "generatedFile.txt",
             fingerprintArtifacts: true,
             flatten: true,
-            selector: specific('17'),
+            selector: lastWithArtifacts(),
             projectName: targetCIJob])
     } catch (Exception e) {
         println "Could not find last successful build properties for job"
