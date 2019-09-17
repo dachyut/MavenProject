@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo "Current branch name: ${env.BRANCH_NAME}"
                 sh 'echo "artifact file" > generatedFile.txt'
-                skipBuild = getLastSuccessfulBuild()
+                def skipBuild = getLastSuccessfulBuild()
                 echo "LSB: ${skipBuild}"
             }
         }        
@@ -18,7 +18,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+            //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
         }
     }
 }
