@@ -10,7 +10,12 @@ node {
                 def skipBuild = getLastSuccessfulBuild()
                 echo "LSB: ${skipBuild}"
                 archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
-        }        
+        }  
+
+        stage (test) {
+            echo "Testing stage"
+            echo "Hello....
+        }      
 }
 
 /***********************
