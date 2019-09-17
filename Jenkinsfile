@@ -7,8 +7,8 @@ node {
                 echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"
                 sh 'echo "artifact file-1" > generatedFile.txt'                
                 
-                //def skipBuild = getLastSuccessfulBuild()
-                //echo "LSB: ${skipBuild}"
+                def skipBuild = getLastSuccessfulBuild()
+                echo "LSB: ${skipBuild}"
                 archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
         }  
 
