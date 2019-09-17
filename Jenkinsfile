@@ -1,26 +1,12 @@
-pipeline {
-    
-    agent any
-    tools {
-        maven 'maven'
-    }
-    
-    stages {
+node {
         stage ('General') {
-            steps {
+            
                 echo "Current branch name: ${env.BRANCH_NAME}"
                 sh 'echo "artifact file" > generatedFile.txt'
                 def skipBuild = getLastSuccessfulBuild()
                 echo "LSB: ${skipBuild}"
-            }
+            
         }        
-	}
-
-    post {
-        always {
-            //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
-        }
-    }
 }
 
 /***********************
