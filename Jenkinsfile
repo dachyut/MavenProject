@@ -18,7 +18,7 @@ node {
 Boolean getLastSuccessfulBuild() {
     final String commitKey = 'COMMIT'
     final String artifactKey = 'DOWNLOAD_URL'
-    final String targetCIJob = 'MultiBranchPipeline/newBranch'
+    final String targetCIJob = 'MultiBranchPipeline/PR-2'
 
     try {
         step([$class: 'CopyArtifact',
