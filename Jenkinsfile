@@ -2,7 +2,7 @@ node {
         stage ('General') {
             
                 echo "Current branch name: ${env.BRANCH_NAME}"
-                sh 'echo "artifact file" > generatedFile.txt'
+                //sh 'echo "artifact file" > generatedFile.txt'
                 def skipBuild = getLastSuccessfulBuild()
                 echo "LSB: ${skipBuild}"
             
@@ -22,7 +22,6 @@ Boolean getLastSuccessfulBuild() {
             filter: "generatedFile.txt",
             fingerprintArtifacts: true,
             flatten: true,
-            selector: lastSuccessful(),
             projectName: targetCIJob])
     } catch (Exception e) {
         println "Could not find last successful build properties for job"
