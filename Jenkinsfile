@@ -19,7 +19,7 @@ node {
 
         stage (test2) {
             echo "Testing stage2"
-            echo "Hello....
+            echo "Hello...."
         }      
 }
 
