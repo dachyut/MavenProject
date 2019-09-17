@@ -7,9 +7,9 @@ node {
                 echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"
                 sh 'echo "artifact file-1" > generatedFile.txt'                
                 
-                def skipBuild = getLastSuccessfulBuild()
-                echo "LSB: ${skipBuild}"
-                archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+                //def skipBuild = getLastSuccessfulBuild()
+                //echo "LSB: ${skipBuild}"
+                //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
         }  
 
         stage ('test1') {
@@ -20,7 +20,7 @@ node {
         stage ('test2') {
             echo "Testing stage2"
             echo "Hello...."
-            error('Failing stage')
+            //error('Failing stage')
             
         }      
 }
