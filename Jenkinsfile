@@ -1,6 +1,6 @@
 node {
         stage ('General') {
-            
+                cleanWs()
                 echo "Current branch name: ${env.BRANCH_NAME}"
                 echo "BUILD_DISPLAY_NAME: ${env.BUILD_DISPLAY_NAME}"
                 echo "JOB_NAME: ${env.JOB_NAME}"
