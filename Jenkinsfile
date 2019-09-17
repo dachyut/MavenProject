@@ -7,8 +7,11 @@ pipeline {
     
     stages {
         stage ('General') {
-            echo "Current branch name: ${env.BRANCH_NAME}"
-        }        
+            steps {
+                echo "Current branch name: ${env.BRANCH_NAME}"
+            }
+        }
+        
 	}
 }
 
