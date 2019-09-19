@@ -1,11 +1,16 @@
 node {
         stage ('General') {
                 cleanWs()
-                echo "Current branch name: ${env.BRANCH_NAME}"
+                echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                 echo "BUILD_DISPLAY_NAME: ${env.BUILD_DISPLAY_NAME}"
                 echo "JOB_NAME: ${env.JOB_NAME}"
                 echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"
-				echo "Target Branch: ${env.CHANGE_TARGET}"
+				echo "CHANGE_TARGET: ${env.CHANGE_TARGET}"
+				echo "GIT_BRANCH: ${env.GIT_BRANCH}"
+				echo "GIT_PREVIOUS_COMMIT: ${env.GIT_PREVIOUS_COMMIT}"
+				echo "GIT_PREVIOUS_SUCCESSFUL_COMMIT: ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
+				
+				
                 //sh 'echo "artifact file-3" > generatedFile.txt'                
                 
                 //def skipBuild = getLastSuccessfulBuild()
