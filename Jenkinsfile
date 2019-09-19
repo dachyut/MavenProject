@@ -29,6 +29,9 @@ node {
 				//def currSuccBuild = getLastSuccessfulBuild()
 				//println Jenkins.instance.getItem(env.JOB_NAME)
 				
+				def lsb = Jenkins.instance.getAllItems() .findAll{ it instanceof Job } .collect{ it.getLastSuccessfulBuild() }.findAll{ it } .sort{ it.timestamp } .last()
+				println lsb
+				
 				def item = Jenkins.instance.getItem(env.JOB_NAME)
 				def  ff=item.getLastSuccessfulBuild()
 				println ff
