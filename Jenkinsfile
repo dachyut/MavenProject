@@ -12,11 +12,14 @@ node {
 				echo "GIT_COMMIT: ${env.GIT_COMMIT}"
 				echo "CHANGE_BRANCH: ${CHANGE_BRANCH}"
 				
+				println "Current commit: ${getCurrentBuildCommitLog()}"
+				println "Last successfulcommit: ${getLastSuccessfulBuildCommitLog(currentBuild)}"
+				
                 //sh 'echo "artifact file-3" > generatedFile.txt'                
                 
                 //def skipBuild = getLastSuccessfulBuild()
                 //echo "LSB: ${skipBuild}"
-                archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+                //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
         }  
 
         stage ('test1') {
@@ -54,4 +57,54 @@ Boolean getLastSuccessfulBuild() {
     }
     return true
 }
+
+/*****************************************
+    Get Last successfull build commit log
+******************************************/
+@NonCPS
+def getLastSuccessfulBuildCommitLog(build) {
+    def lastSuccBuild
+    def changeLogSets
+    def lastSuccCommitLog    
+    currBuild = build
+    while (currBuild?.getPreviousBuild()?.result !=null) {
+        currBuild = currBuild.getPreviousBuild()
+        if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
+            lastSuccBuild = currBuild
+            break
+        }
+    }
+    if (lastSuccBuild != null) {
+        println "Last successful Build number: ${lastSuccBuild.number} Build Result: ${lastSuccBuild.result}"
+    }
+    else {
+        println "There are no Last successful Build"
+        return null
+    }
+    changeLogSets = lastSuccBuild.changeSets    
+    if (changeLogSets.size() > 0) {
+        def entries = changeLogSets[0].items
+        lastSuccCommitLog = entries[entries.length-1].commitId
+    }
+    println "Last Successful Commit Log: ${lastSuccCommitLog.toString()}"
+    //return (lastSuccCommitLog + '^').toString()
+    return lastSuccCommitLog.toString()
+}
+
+/*********************************
+    Get current build commit log
+**********************************/
+@NonCPS
+def getCurrentBuildCommitLog () {
+    def changeLogSets = currentBuild.changeSets    
+    def currentCommitLog
+    if (changeLogSets.size() > 0) {
+        def entries = changeLogSets[0].items
+        currentCommitLog = entries[entries.length-1].commitId
+    }
+    println "Current Commit Log: ${currentCommitLog.toString()}"
+    return currentCommitLog.toString()
+}
+
+
 
