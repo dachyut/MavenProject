@@ -20,10 +20,11 @@ node {
 				
 				changedFiles = getChangedFiles(currentChgSets, lastSuccChgSets)
 				println "Changed files:"
-				for (int ii = 0; ii < changedFiles.size(); ii++) {
-					println changedFiles[ii]
-				}
-				
+				if (changedFiles != null) {
+					for (int ii = 0; ii < changedFiles.size(); ii++) {
+						println changedFiles[ii]
+					}
+				}	
 				println "==============================="
 				//def currSuccBuild = getLastSuccessfulBuild()
 				println Jenkins.instance.getItem(env.JOB_NAME)
