@@ -27,7 +27,7 @@ node {
 				}	
 				println "==============================="
 				//def currSuccBuild = getLastSuccessfulBuild()
-				println Jenkins.instance.getItem(env.JOB_NAME)
+				//println Jenkins.instance.getItem(env.JOB_NAME)
 				
 				def item = Jenkins.instance.getItem(env.JOB_NAME)
 				def  ff=item.getLastSuccessfulBuild()
