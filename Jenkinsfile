@@ -12,9 +12,10 @@ node {
 				echo "GIT_COMMIT: ${env.GIT_COMMIT}"
 				echo "CHANGE_BRANCH: ${CHANGE_BRANCH}"
 				
-				println "Current commit: ${getCurrentBuildCommitLog()}"
-				println "Last successfulcommit: ${getLastSuccessfulBuildCommitLog(currentBuild)}"
-				
+				currentChgSets = getCurrentBuildCommitLog()
+				println "Current commit: ${currentChgSets}"
+				lastSuccChgSets = getLastSuccessfulBuildCommitLog(currentBuild)
+				println "Last successfulcommit: ${lastSuccChgSets}"				
 				
 				changedFiles = getChangedFiles(currentChgSets, lastSuccChgSets)
 				println "Changed files:"
