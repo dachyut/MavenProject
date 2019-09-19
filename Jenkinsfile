@@ -115,7 +115,7 @@ def getCurrentBuildCommitLog () {
 }
 
 def getChangedFiles (firstCommit, secondCommit) {
-    final String changedFilesList = '.git/changed_files.txt'
+    final String changedFilesList = 'changed_files.txt'
     def myStatus = sh(returnStatus: true, script: "git diff --name-only ${firstCommit} ${secondCommit} > ${changedFilesList}")
     if (myStatus != 0) {
         println "Git failed getting the list of changed files."
