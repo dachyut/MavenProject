@@ -9,7 +9,7 @@ node {
 				echo "GIT_BRANCH: ${env.GIT_BRANCH}"
 				echo "GIT_PREVIOUS_COMMIT: ${env.GIT_PREVIOUS_COMMIT}"
 				echo "GIT_PREVIOUS_SUCCESSFUL_COMMIT: ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
-				
+				echo "GIT_COMMIT: ${env.GIT_COMMIT}"
 				echo "CHANGE_BRANCH: ${CHANGE_BRANCH}"
 				
                 //sh 'echo "artifact file-3" > generatedFile.txt'                
