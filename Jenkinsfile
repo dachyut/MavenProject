@@ -11,6 +11,7 @@ node {
 				echo "GIT_PREVIOUS_SUCCESSFUL_COMMIT: ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 				echo "GIT_COMMIT: ${env.GIT_COMMIT}"
 				echo "CHANGE_BRANCH: ${CHANGE_BRANCH}"
+				echo "currentBuild: ${currentBuild}"
 				
 				currentChgSets = getCurrentBuildCommitLog()
 				println "Current commit: ${currentChgSets}"
