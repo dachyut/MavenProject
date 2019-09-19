@@ -15,6 +15,13 @@ node {
 				println "Current commit: ${getCurrentBuildCommitLog()}"
 				println "Last successfulcommit: ${getLastSuccessfulBuildCommitLog(currentBuild)}"
 				
+				
+				changedFiles = getChangedFiles(currentChgSets, lastSuccChgSets)
+				println "Changed files:"
+				for (int ii = 0; ii < changedFiles.size(); ii++) {
+					println changedFiles[ii]
+				}
+				
                 //sh 'echo "artifact file-3" > generatedFile.txt'                
                 
                 //def skipBuild = getLastSuccessfulBuild()
@@ -104,6 +111,18 @@ def getCurrentBuildCommitLog () {
     }
     println "Current Commit Log: ${currentCommitLog.toString()}"
     return currentCommitLog.toString()
+}
+
+def getChangedFiles (firstCommit, secondCommit) {
+    final String changedFilesList = '.git/changed_files.txt'
+    def myStatus = sh(returnStatus: true, script: "git diff --name-only ${firstCommit} ${secondCommit} > ${changedFilesList}")
+    if (myStatus != 0) {
+        println "Git failed getting the list of changed files."
+        return null
+    }
+    sh "wc -l ${changedFilesList}"
+    sh "cat ${changedFilesList}"
+    return readFile(changedFilesList).split("\n")
 }
 
 //
