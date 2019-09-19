@@ -24,6 +24,16 @@ node {
 					println changedFiles[ii]
 				}
 				
+				println "==============================="
+				//def currSuccBuild = getLastSuccessfulBuild()
+				println Jenkins.instance.getItem(env.JOB_NAME)
+				
+				def item = Jenkins.instance.getItem(env.JOB_NAME)
+				def  ff=item.getLastSuccessfulBuild()
+				println ff
+				
+				println "================================"
+				
                 //sh 'echo "artifact file-3" > generatedFile.txt'                
                 
                 //def skipBuild = getLastSuccessfulBuild()
@@ -47,18 +57,18 @@ node {
 /***********************
     Get artifacts from last successfull build
 ************************/
-Boolean getLastSuccessfulBuild() {
+Boolean getLastSuccessfulBuild(branch) {
     final String commitKey = 'COMMIT'
     final String artifactKey = 'DOWNLOAD_URL'
-    final String targetCIJob = 'MultiBranchPipeline/PR-2'
+    //final String targetCIJob = 'MultiBranchPipeline/PR-2'
 
     try {
         step([$class: 'CopyArtifact',
-            filter: "generatedFile.txt",
+            //filter: "generatedFile.txt",
             fingerprintArtifacts: true,
             flatten: true,
             selector: lastSuccessful(),
-            projectName: targetCIJob])
+            projectName: branch])
     } catch (Exception e) {
         println "Could not find last successful build properties for job"
         println e
