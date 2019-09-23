@@ -10,6 +10,12 @@ pipeline {
             
             steps {
 				echo 'Build stage...'
+				echo "******** I am in master ********"
+				echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+				echo "CHANGE_TARGET: ${env.CHANGE_TARGET}"
+				echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
+				echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"	
+				
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 //git url: 'D:\\Maven Project\\my-maven-project'
             }
