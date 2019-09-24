@@ -18,6 +18,7 @@ def getLastSuccessfulCommitId(build) {
     def changeSets
     def lastSuccCommitId   
     currBuild = build
+	println "====> Current build: ${currBuild}"
     while (currBuild?.getPreviousBuild()?.result !=null) {
         currBuild = currBuild.getPreviousBuild()
         if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
