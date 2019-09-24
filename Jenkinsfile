@@ -7,8 +7,7 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 	
-		Random random = new Random()
-		random = random.nextInt(10 ** 5)
+		random = 12345
 		sh 'echo "artifact file-${random}" > generatedFile.txt'                
         archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
