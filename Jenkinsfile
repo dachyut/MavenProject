@@ -7,23 +7,26 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 		
-		currBranch = env.BRANCH_NAME
-		currBranch_Parent = env.CHANGE_BRANCH
-		currBranch_Target = env.CHANGE_TARGET
-		while (currBranch != null) {
-			println "****** Current Branch: ${currBranch}"
-			println "****** Its parent Branch: ${currBranch_Parent}"	
-			println "****** Its target Branch: ${currBranch_Target}"
-
-			env.BRANCH_NAME = env.CHANGE_BRANCH
-			env.CHANGE_BRANCH = env.CHANGE_TARGET
-			
-			
-			currBranch = env.BRANCH_NAME
-			currBranch_Parent = env.CHANGE_BRANCH
-			currBranch_Target = env.CHANGE_TARGET
-			
+		currBuild = currentBuild
+		while (currBuild?.getPreviousBuild()?.result !=null) {
+			currBuild = currBuild.getPreviousBuild()
+			if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
+				lastSuccBuild = currBuild
+				println "LSB of Current: ${lastSuccBuild}"
+				break
+			}
 		}
+		
+		currBuild = env.CHANGE_TARGET
+        while (currBuild?.result !=null) {
+            currBuild = currBuild?.getPreviousBuild()?
+            if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
+                lastSuccBuild = currBuild
+				println "LSB of Target: ${lastSuccBuild}"
+                break
+            }
+        }
+		
 	}	
 }
 
