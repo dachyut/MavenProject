@@ -7,12 +7,21 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 		
-		currBranch = env.CHANGE_BRANCH
-		targetBranch = env.CHANGE_TARGET
+		currBranch = env.BRANCH_NAME
+		currBranch_Parent = env.CHANGE_BRANCH
+		currBranch_Target = env.CHANGE_TARGET
 		while (currBranch != null) {
-			println "****** Current Branch: ${currBranch}"			
-			currBranch = env.CHANGE_TARGET
-			env.CHANGE_TARGET = env.CHANGE_BRANCH
+			println "****** Current Branch: ${currBranch}"
+			println "****** Its parent Branch: ${currBranch_Parent}"	
+			println "****** Its target Branch: ${currBranch_Target}"
+
+			env.BRANCH_NAME = env.CHANGE_BRANCH
+			env.CHANGE_BRANCH = env.CHANGE_TARGET
+			
+			
+			currBranch = env.BRANCH_NAME
+			currBranch_Parent = env.CHANGE_BRANCH
+			currBranch_Target = env.CHANGE_TARGET
 			
 		}
 	}	
