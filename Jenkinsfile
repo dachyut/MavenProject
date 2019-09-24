@@ -9,7 +9,7 @@ node {
 		
 		currBranch = env.CHANGE_BRANCH
 		while (currBranch != null) {
-			println "****** Current Branch: ${env.CHANGE_BRANCH}"
+			println "****** Current Branch: ${currBranch}"
 			currBranch = env.CHANGE_TARGET
 		}
 	}	
