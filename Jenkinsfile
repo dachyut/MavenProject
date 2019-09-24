@@ -6,6 +6,8 @@ node {
 		echo "CHANGE_TARGET: ${env.CHANGE_TARGET}"
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
+		
+		getLastSuccessfulCommitId(currentBuild)
 	}	
 		
 }
