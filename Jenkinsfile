@@ -30,7 +30,9 @@ def getLastSuccessfulCommitId(build) {
     }
     
 	println "Looking for successful build in Target branch ${env.CHANGE_TARGET}"
-	currBuild = env.CHANGE_TARGET
+	def buildNumber = Jenkins.instance.getItem(env.CHANGE_TARGET).lastSuccessfulBuild.number
+	println buildNumber
+	/***currBuild = env.CHANGE_TARGET
 	while (currBuild?.getPreviousBuild()?.result !=null) {
 		currBuild = currBuild.getPreviousBuild()
 		if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
@@ -38,7 +40,7 @@ def getLastSuccessfulCommitId(build) {
 			println "Last successful Build_Target number: ${lastSuccBuild.number} Build Result: ${lastSuccBuild.result}"
 			break
 		}
-	}
+	}****/
 }
 
 //commit1
