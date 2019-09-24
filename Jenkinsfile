@@ -28,7 +28,7 @@ def getLastSuccessfulCommitId(build) {
 	println "Looking for successful build in Target branch ${env.CHANGE_TARGET}"
 	currBuild = env.CHANGE_TARGET
 	while (currBuild?.result !=null) {
-		currBuild = currBuild?.getPreviousBuild()?
+		currBuild = currBuild.getPreviousBuild()
 		if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
 			lastSuccBuild = currBuild
 			println "LSB in target build: ${lastSuccBuild}"
