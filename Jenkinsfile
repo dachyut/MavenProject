@@ -1,11 +1,4 @@
 node {       
-
-	
-	withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
-	usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-	sh 'echo uname=$USERNAME pwd=$PASSWORD'
-	}
 	
 	stage ('Build') {		
 		cleanWs()
@@ -19,15 +12,16 @@ node {
 		sh 'echo "artifact file-${random}" > generatedFile.txt'                
         archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
-		//httpRequest url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json', outputFile: './output.json'
+		httpRequest responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
+
 		//def props = readJSON file: './output.json'
 		//println props
 	
-		buildStatus = getCIBuild(env.BRANCH_NAME)
-		println "${env.BRANCH_NAME} build: ${buildStatus}"
+		//buildStatus = getCIBuild(env.BRANCH_NAME)
+		//println "${env.BRANCH_NAME} build: ${buildStatus}"
 		
-		buildStatus = getCIBuild(env.CHANGE_BRANCH)
-		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
+		//buildStatus = getCIBuild(env.CHANGE_BRANCH)
+		//println "${env.CHANGE_BRANCH} build: ${buildStatus}"
 			
 	}	
 		
