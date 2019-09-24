@@ -18,7 +18,7 @@ node {
 		}
 		
 		currBuild = env.CHANGE_TARGET
-        while (currBuild?.result !=null) {
+        while (currBuild.result !=null) {
             currBuild = currBuild?.getPreviousBuild()
             if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
                 lastSuccBuild = currBuild
