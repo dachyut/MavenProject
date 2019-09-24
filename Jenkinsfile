@@ -8,9 +8,12 @@ node {
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 		
 		currBranch = env.CHANGE_BRANCH
+		targetBranch = env.CHANGE_TARGET
 		while (currBranch != null) {
-			println "****** Current Branch: ${currBranch}"
+			println "****** Current Branch: ${currBranch}"			
 			currBranch = env.CHANGE_TARGET
+			env.CHANGE_TARGET = env.CHANGE_BRANCH
+			
 		}
 	}	
 }
