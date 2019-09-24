@@ -12,11 +12,11 @@ node {
 		sh 'echo "artifact file-${random}" > generatedFile.txt'                
         archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
-		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
+		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
 
 		
-		//def props = readJSON file: './output.json'
-		//println props
+		def props = readJSON file: './output.json'
+		println props
 	
 		//buildStatus = getCIBuild(env.BRANCH_NAME)
 		//println "${env.BRANCH_NAME} build: ${buildStatus}"
