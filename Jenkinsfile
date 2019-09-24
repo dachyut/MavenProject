@@ -5,6 +5,7 @@ node {
 	usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
 	sh 'echo uname=$USERNAME pwd=$PASSWORD'
+	}
 	
 	stage ('Build') {		
 		cleanWs()
