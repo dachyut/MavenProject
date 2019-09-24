@@ -8,7 +8,7 @@ node {
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 		
 		currBuild = currentBuild
-		while (currBuild?.getPreviousBuild()?.result !=null) {
+		while (currBuild.rawBuild.getPreviousBuild()?.getResult().toString() !=null) {
 			currBuild = currBuild.getPreviousBuild()
 			if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
 				lastSuccBuild = currBuild
@@ -18,7 +18,8 @@ node {
 		}
 		
 		currBuild = env.CHANGE_TARGET
-        while (currBuild.result !=null) {
+		println currBuild.rawBuild.getPreviousBuild()?.getResult().toString()
+        while (currBuild.rawBuild.getPreviousBuild()?.getResult().toString() !=null) {
             currBuild = currBuild?.getPreviousBuild()
             if(currBuild.result == 'SUCCESS' && (currBuild.changeSets).size() > 0) {
                 lastSuccBuild = currBuild
