@@ -7,12 +7,12 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 	
-		httpRequest url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json', outputFile: './output.json'
-		def props = readJSON file: './output.json'
-		println props
+		//httpRequest url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json', outputFile: './output.json'
+		//def props = readJSON file: './output.json'
+		//println props
 	
-		//buildStatus = getCIBuild(env.BRANCH_NAME)
-		//println "${env.BRANCH_NAME} build: ${buildStatus}"
+		buildStatus = getCIBuild(env.BRANCH_NAME)
+		println "${env.BRANCH_NAME} build: ${buildStatus}"
 		
 		//buildStatus = getCIBuild(env.CHANGE_BRANCH)
 		//println "${env.CHANGE_BRANCH} build: ${buildStatus}"
@@ -28,8 +28,6 @@ Boolean getCIBuild(targetBranch) {
 
     try {
         step([$class: 'CopyArtifact',            
-            fingerprintArtifacts: true,
-            flatten: true,
             selector: lastSuccessful(),
             projectName: targetCIJob])
     } catch (Exception e) {
