@@ -32,8 +32,9 @@ def getLastSuccessfulCommitId(build) {
 	println "Looking for successful build in Target branch ${env.CHANGE_TARGET}"
 	//def buildNumber = Jenkins.instance.getItem(env.CHANGE_TARGET)
 	def build_job = build job: "${env.CHANGE_TARGET}"
-	build_job_number = build_job.getNumber()
-	println build_job_number
+	println build_job.getClass()
+	//build_job_number = build_job.getNumber()
+	//println build_job_number
 	/***currBuild = env.CHANGE_TARGET
 	while (currBuild?.getPreviousBuild()?.result !=null) {
 		currBuild = currBuild.getPreviousBuild()
