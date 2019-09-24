@@ -14,8 +14,8 @@ node {
 		buildStatus = getCIBuild(env.BRANCH_NAME)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
 		
-		//buildStatus = getCIBuild(env.CHANGE_BRANCH)
-		//println "${env.CHANGE_BRANCH} build: ${buildStatus}"
+		buildStatus = getCIBuild(env.CHANGE_BRANCH)
+		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
 			
 	}	
 		
