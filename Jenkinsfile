@@ -7,9 +7,32 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 		
-		getLastSuccessfulCommitId(currentBuild)
+		buildStatus = getCIBuild(env.BRANCH_NAME)
+		println "${env.BRANCH_NAME} build: ${buildStatus}"
+		
+		buildStatus = getCIBuild(env.CHANGE_BRANCH)
+		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
+			
 	}	
 		
+}
+
+Boolean getCIBuild(targetBranch) {
+    final String commitKey = 'COMMIT'
+    final String artifactKey = 'DOWNLOAD_URL'
+    final String targetCIJob =  '//MultiBranchPipeline/' + targetBranch
+
+    try {
+        step([$class: 'CopyArtifact',            
+            fingerprintArtifacts: true,
+            flatten: true,
+            selector: lastSuccessful(),
+            projectName: targetCIJob])
+    } catch (Exception e) {
+        println "Could not find last successful build properties for job:  ${targetCIJob}"
+        println e
+        return false
+    }
 }
 
 @NonCPS
