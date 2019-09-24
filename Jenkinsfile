@@ -7,6 +7,10 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 	
+		random = random()
+		sh 'echo "artifact file-${random}" > generatedFile.txt'                
+        archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+		
 		//httpRequest url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json', outputFile: './output.json'
 		//def props = readJSON file: './output.json'
 		//println props
@@ -27,7 +31,10 @@ Boolean getCIBuild(targetBranch) {
     final String targetCIJob =  '//MultiBranchPipeline/' + targetBranch
 
     try {
-        step([$class: 'CopyArtifact',            
+        step([$class: 'CopyArtifact',
+            filter: "generatedFile.txt",
+            fingerprintArtifacts: true,
+            flatten: true,
             selector: lastSuccessful(),
             projectName: targetCIJob])
     } catch (Exception e) {
