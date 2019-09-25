@@ -11,7 +11,7 @@ node {
 		println "${JENKINS_URL}"
 		println "${env.BRANCH_NAME}"
 		
-		commit = git rev-parse HEAD
+		commit = sh "git rev-parse HEAD"
 		
 		sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > generatedFile.txt'
 		sh 'echo "COMMIT=${commit}" >> generatedFile.txt'
