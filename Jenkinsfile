@@ -8,14 +8,23 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 	
-		random = 12345
-		sh 'echo "artifact file-${random}" > generatedFile.txt'                
+		
+		sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > generatedFile.txt'
+		sh 'echo "COMMIT=3fde0df43603023269315c2fa816bed21d5aa360" >> generatedFile.txt'
+		sh 'echo "DOWNLOAD_URL=http://artifacts.carb.lab/EndpointMidmarket/Shared/Midmarket-New-Build_Hermes/PR/450" >> generatedFile.txt'
+		sh 'echo "VAULT_INSTALLER=./Public/Vault/VaultInstaller-10.4.450.450-Carbonite.EXE" >> generatedFile.txt'
+		sh 'echo "VAULT_DBHELPER=./Private/Automation/VaultDBHelper-10.4.450.450.zip" >> generatedFile.txt'
+		sh 'echo "QUICKCACHE_INSTALLER= " >> generatedFile.txt'
+		sh 'echo "DCPROTECT_WIN_INSTALLER=http://artifacts.carb.lab/EndpointMidmarket/Releases/Releasejobs/v10.3.0/Midmarket-New-Build/RC/73.SAVE/Public/Client-NoPassphrase/DCProtect-10.3.2.73-Carbonite.msi" >> generatedFile.txt' 
+		sh 'echo "DCPROTECT_WIN_RESTWRAPPER=./Private/Automation/ProtectionServiceRESTWrapper-10.4.450.450.zip" >> generatedFile.txt' 
+		sh 'echo "DCPROTECT_MAC_INSTALLER= " >> generatedFile.txt'
+           
         archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
-		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.json', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
+		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
 
 		
-		def props = readJSON file: './output.json'
+		def props = readJSON file: './output.txt'
 		println props
 	
 		//buildStatus = getCIBuild(env.BRANCH_NAME)
