@@ -31,7 +31,7 @@ node {
 		println skipComponentsList.get('COMMIT')
 	
            
-        //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+        archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
 	
 		//buildStatus = getCIBuild(env.BRANCH_NAME)
