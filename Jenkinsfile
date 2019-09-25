@@ -15,7 +15,7 @@ node {
 		sh 'echo "COMMIT=3fde0df43603023269315c2fa816bed21d5aa360" >> generatedFile.txt'
 		sh 'echo "DCPROTECT_MAC_INSTALLER= " >> generatedFile.txt'
 		
-		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: '${JENKINS_URL}/job/MultiBranchPipeline/job/${env.BRANCH_NAME}/lastSuccessfulBuild/artifact/generatedFile.txt'
+		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: "${JENKINS_URL}/job/MultiBranchPipeline/job/${env.BRANCH_NAME}/lastSuccessfulBuild/artifact/generatedFile.txt"
 		
 		String suiteFile = readFile('output.txt')
 		// split lines
