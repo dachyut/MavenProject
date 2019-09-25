@@ -8,24 +8,31 @@ node {
 		echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
 		echo "JOB_BASE_NAME: ${env.JOB_BASE_NAME}"		
 	
+		println "${JENKINS_URL}"
+		println "${env.BRANCH_NAME}"
 		
 		sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > generatedFile.txt'
 		sh 'echo "COMMIT=3fde0df43603023269315c2fa816bed21d5aa360" >> generatedFile.txt'
-		sh 'echo "DOWNLOAD_URL=http://artifacts.carb.lab/EndpointMidmarket/Shared/Midmarket-New-Build_Hermes/PR/450" >> generatedFile.txt'
-		sh 'echo "VAULT_INSTALLER=./Public/Vault/VaultInstaller-10.4.450.450-Carbonite.EXE" >> generatedFile.txt'
-		sh 'echo "VAULT_DBHELPER=./Private/Automation/VaultDBHelper-10.4.450.450.zip" >> generatedFile.txt'
-		sh 'echo "QUICKCACHE_INSTALLER= " >> generatedFile.txt'
-		sh 'echo "DCPROTECT_WIN_INSTALLER=http://artifacts.carb.lab/EndpointMidmarket/Releases/Releasejobs/v10.3.0/Midmarket-New-Build/RC/73.SAVE/Public/Client-NoPassphrase/DCProtect-10.3.2.73-Carbonite.msi" >> generatedFile.txt' 
-		sh 'echo "DCPROTECT_WIN_RESTWRAPPER=./Private/Automation/ProtectionServiceRESTWrapper-10.4.450.450.zip" >> generatedFile.txt' 
 		sh 'echo "DCPROTECT_MAC_INSTALLER= " >> generatedFile.txt'
-           
-        archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
-		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/api/json/lastSuccessfulBuild/api/json'
+		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: 'http://localhost:8080/job/MultiBranchPipeline/job/PR-4/lastSuccessfulBuild/artifact/generatedFile.txt'
+		
+		String suiteFile = readFile('output.txt')
+		// split lines
+		skipComponentsList = (((suiteFile.split('\n')
+				// remove blank lines
+				.findAll { item -> !item.isEmpty() })
+				// find line contains '='
+				.findAll { it.contains('=') })
+				// collections of switches
+				.collectEntries{ [(it.split("=")[0].trim()): it.split("=")[1].trim()] })
+				.findAll{ it.key == 'COMMIT' }
 
+		println skipComponentsList.get('COMMIT')
+	
+           
+        //archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
 		
-		def props = readJSON file: './output.txt'
-		println props
 	
 		//buildStatus = getCIBuild(env.BRANCH_NAME)
 		//println "${env.BRANCH_NAME} build: ${buildStatus}"
