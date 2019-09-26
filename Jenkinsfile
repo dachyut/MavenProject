@@ -36,13 +36,13 @@ node {
 		//println skipComponentsList.get('COMMIT')
 		
 	
-		buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
+		/*buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
 		println "echo ${buildPropertiesFile}"
 		
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,buildPropertiesFile)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
-		println "echo ${buildPropertiesFile}"
+		println "echo ${buildPropertiesFile}"*/
 	}	
 		
 }
