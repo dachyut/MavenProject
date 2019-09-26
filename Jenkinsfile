@@ -15,14 +15,10 @@ node {
 	
 		println "${JENKINS_URL}"
 		println "${env.BRANCH_NAME}"
-		
-		def commit1 = bat "git rev-parse HEAD"
-		println commit1
-		def c = "COMMIT=${commit1}"
-		println c
-		
+					
 		sh "git rev-parse HEAD >./commit_id"
 		String myCommit = readFile('./commit_id').replaceAll('\\W', '')
+		println myCommit
 		
 		bat "echo BRANCH=3fde0df43603023269315c2fa816bed21d5aa360 > build.properties"
 		bat "echo COMMIT=$myCommit >> build.properties"		
@@ -49,13 +45,13 @@ node {
 		//println skipComponentsList.get('COMMIT')
 		
 	
-		/*buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
+		buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
-		println "echo ${buildPropertiesFile}"
+		println "PR prop file: ${buildPropertiesFile}"
 		
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,buildPropertiesFile)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
-		println "echo ${buildPropertiesFile}"*/
+		println "CI prop file: ${buildPropertiesFile}"
 	}	
 		
 }
