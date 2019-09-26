@@ -16,9 +16,9 @@ node {
 		println "${JENKINS_URL}"
 		println "${env.BRANCH_NAME}"
 		
-		commit1 = sh "git rev-parse HEAD"
+		def commit1 = sh "git rev-parse HEAD"
 		println commit1
-		c = "COMMIT=${commit1}"
+		def c = "COMMIT=${commit1}"
 		println c
 		
 		bat "echo BRANCH=3fde0df43603023269315c2fa816bed21d5aa360 > build.properties"
