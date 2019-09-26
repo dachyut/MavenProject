@@ -17,9 +17,13 @@ node {
 		println "${env.BRANCH_NAME}"
 		
 		commit1 = sh "git rev-parse HEAD"
+		println commit1
+		c = "COMMIT=${commit1}"
+		println c
 		
 		bat "echo BRANCH=3fde0df43603023269315c2fa816bed21d5aa360 > build.properties"
 		bat "echo COMMIT=$commit1 >> build.properties"
+		bat "echo $c >> build.properties"
 		bat "echo DCPROTECT_MAC_INSTALLER=win.exe >> build.properties"
 		
 		//sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > build.properties'
