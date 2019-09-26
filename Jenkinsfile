@@ -1,3 +1,5 @@
+final String BuildPropertiesFile = 'build.properties'
+
 node {       
 	
 	stage ('Build') {		
@@ -13,47 +15,46 @@ node {
 		
 		commit = sh "git rev-parse HEAD"
 		
-		sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > generatedFile.txt'
-		sh 'echo "COMMIT=${commit}" >> generatedFile.txt'
-		sh 'echo "DCPROTECT_MAC_INSTALLER= " >> generatedFile.txt'
+		sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > build.properties'
+		sh 'echo "COMMIT=${commit}" >> build.properties'
+		sh 'echo "DCPROTECT_MAC_INSTALLER= " >> build.properties'
+		archiveArtifacts artifacts: 'build.properties', fingerprint: true
 		
-		httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: "${JENKINS_URL}job/MultiBranchPipeline/job/${env.BRANCH_NAME}/lastSuccessfulBuild/artifact/generatedFile.txt"
+		//httpRequest authentication: '669a0175-39d9-487f-92e4-6fbf1723599a', outputFile: 'output.txt', responseHandle: 'NONE', url: "${JENKINS_URL}job/MultiBranchPipeline/job/${env.BRANCH_NAME}/lastSuccessfulBuild/artifact/build.properties"
 		
-		String suiteFile = readFile('output.txt')
+		//String suiteFile = readFile('output.txt')
 		// split lines
-		skipComponentsList = (((suiteFile.split('\n')
+		//skipComponentsList = (((suiteFile.split('\n')
 				// remove blank lines
-				.findAll { item -> !item.isEmpty() })
+		//		.findAll { item -> !item.isEmpty() })
 				// find line contains '='
-				.findAll { it.contains('=') })
+		//		.findAll { it.contains('=') })
 				// collections of switches
-				.collectEntries{ [(it.split("=")[0].trim()): it.split("=")[1].trim()] })
-				.findAll{ it.key == 'COMMIT' }
+		//		.collectEntries{ [(it.split("=")[0].trim()): it.split("=")[1].trim()] })
+		//		.findAll{ it.key == 'COMMIT' }
 
-		println skipComponentsList.get('COMMIT')
-	
-           
-        archiveArtifacts artifacts: 'generatedFile.txt', fingerprint: true
+		//println skipComponentsList.get('COMMIT')
 		
 	
-		//buildStatus = getCIBuild(env.BRANCH_NAME)
-		//println "${env.BRANCH_NAME} build: ${buildStatus}"
+		buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
+		println "${env.BRANCH_NAME} build: ${buildStatus}"
+		println "echo ${buildPropertiesFile}"
 		
-		//buildStatus = getCIBuild(env.CHANGE_BRANCH)
-		//println "${env.CHANGE_BRANCH} build: ${buildStatus}"
-			
+		buildStatus = getCIBuild(env.CHANGE_BRANCH,buildPropertiesFile)
+		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
+		println "echo ${buildPropertiesFile}"
 	}	
 		
 }
 
-Boolean getCIBuild(targetBranch) {
+Boolean getCIBuild(targetBranch, buildPropertiesFile) {
     final String commitKey = 'COMMIT'
     final String artifactKey = 'DOWNLOAD_URL'
     final String targetCIJob =  '//MultiBranchPipeline/' + targetBranch
 
     try {
         step([$class: 'CopyArtifact',
-            filter: "generatedFile.txt",
+            filter: "${buildPropertiesFile}",
             fingerprintArtifacts: true,
             flatten: true,
             selector: lastSuccessful(),
@@ -63,6 +64,37 @@ Boolean getCIBuild(targetBranch) {
         println e
         return false
     }
+
+    def buildProps = readProperties file:buildPropertiesFile
+    if (!buildProps.containsKey(commitKey)) {
+        println "Could not find what commit was used in the last successful CI build of target ${targetCIJob}."
+        return false
+    }
+
+    // Verify existence of the artifacts download location
+    if (!buildProps.containsKey(artifactKey)) {
+        println "Could not find the artifacts location for the last successful CI build of target ${targetCIJob}."
+        return false
+    }
+    String artifactsCmd = 'curl --head --fail ' + buildProps[artifactKey]
+    def myStatus = sh(returnStatus: true, script: artifactsCmd)
+    if (myStatus != 0) {
+        println "Artifacts location does not exist or is unreachable for the last successful CI build of target ${targetCIJob}: ${buildProps[artifactKey]}"
+        return false
+    }
+
+    if (buildProps[commitKey] == getCommitHash("origin/${targetBranch}")) {
+        println "The last successful CI build ${targetCIJob} is up to date."
+    } else {
+        String[] changedFiles = getChangedFiles(buildProps[commitKey], "origin/${targetBranch}")
+        if (!isOnlyAutomation(changedFiles)) {
+            println "Target branch ${targetBranch} has non-automation commits not included in the last successful CI build ${targetCIJob}."
+            return false
+        }
+    }
+
+    sh "mv ${buildPropertiesFile} ${env.WORKSPACE}"
+    return true
 }
 
 @NonCPS
