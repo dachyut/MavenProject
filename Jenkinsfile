@@ -24,7 +24,7 @@ node {
 		
 		bat "echo BRANCH=${env.BRANCH_NAME} > build.properties"
 		bat "echo COMMIT=$myCommit >> build.properties"		
-		bat "echo DCPROTECT_MAC_INSTALLER=win.exe >> build.properties"
+		bat "echo DCPROTECT_MAC_INSTALLER=http://artifacts.carb.lab/EndpointMidmarket/Shared/Midmarket-New-Build_Hermes/PR >> build.properties"
 		
 		//sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > build.properties'
 		//sh 'echo "COMMIT=${commit}" >> build.properties'
@@ -46,6 +46,8 @@ node {
 
 		//println skipComponentsList.get('COMMIT')
 		
+		println "****************************************************"
+		println "****************************************************"
 	
 		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
@@ -66,7 +68,7 @@ node {
 		println "--------${env.CHANGE_TARGET} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
-		println "2>>>>>>>>> ${skipBuild}"
+		println "3>>>>>>>>> ${skipBuild}"
 		
 	}	
 		
