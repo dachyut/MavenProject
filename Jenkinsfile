@@ -181,6 +181,7 @@ Boolean isOnlyAutomation(changedFiles) {
     }
 
     for (int ii = 0; ii < changedFiles.size(); ii++) {
+		println "11111Found changed file <${changedFiles[ii]}>."
         if (false == changedFiles[ii].startsWith("src")) {
             println "Found diffs with non-automation file <${changedFiles[ii]}>."
             return false
@@ -188,6 +189,7 @@ Boolean isOnlyAutomation(changedFiles) {
     }
 
     for (int ii = 0; ii < changedFiles.size(); ii++) {
+		println "22222Found changed file <${changedFiles[ii]}>."
         if (changedFiles[ii].toLowerCase().contains('Jenkinsfile')) {
             println "Found diffs with build script <${changedFiles[ii]}>."
             return false
