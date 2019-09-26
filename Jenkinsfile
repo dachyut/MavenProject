@@ -19,8 +19,8 @@ node {
 		commit = sh "git rev-parse HEAD"
 		
 		bat "echo BRANCH=3fde0df43603023269315c2fa816bed21d5aa360 > build.properties"
-		bat "echo COMMIT=$commit > build.properties"
-		bat "echo DCPROTECT_MAC_INSTALLER=win.exe > build.properties"
+		bat "echo COMMIT=$commit >> build.properties"
+		bat "echo DCPROTECT_MAC_INSTALLER=win.exe >> build.properties"
 		
 		//sh 'echo "BRANCH=3fde0df43603023269315c2fa816bed21d5aa360" > build.properties'
 		//sh 'echo "COMMIT=${commit}" >> build.properties'
