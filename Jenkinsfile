@@ -1,5 +1,7 @@
 final String BuildPropertiesFile = 'build.properties'
 
+final String lsbCommitId
+
 node {       
 	
 	stage ('Build') {		
@@ -47,20 +49,32 @@ node {
 	
 		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
-		println "PR prop file:"
+		println "--------${env.BRANCH_NAME} prop file:"
 		sh "cat ${BuildPropertiesFile}"
+		skipBuild = lsbCommitId
+		println "1>>>>>>>>> ${skipBuild}"
 		
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,BuildPropertiesFile)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
-		println "CI prop file:"
+		println "--------${env.CHANGE_BRANCH} prop file:"
 		sh "cat ${BuildPropertiesFile}"
+		skipBuild = lsbCommitId
+		println "2>>>>>>>>> ${skipBuild}"
+		
+		buildStatus = getCIBuild(env.CHANGE_TARGET,BuildPropertiesFile)
+		println "${env.CHANGE_TARGET} build: ${buildStatus}"
+		println "--------${env.CHANGE_TARGET} prop file:"
+		sh "cat ${BuildPropertiesFile}"
+		skipBuild = lsbCommitId
+		println "2>>>>>>>>> ${skipBuild}"
+		
 	}	
 		
 }
 
 Boolean getCIBuild(targetBranch, buildPropertiesFile) {
     final String commitKey = 'COMMIT'
-    final String artifactKey = 'DOWNLOAD_URL'
+    final String artifactKey = 'DCPROTECT_MAC_INSTALLER'
     final String targetCIJob =  '//MultiBranchPipeline/' + targetBranch
 
     try {
@@ -79,6 +93,7 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile) {
     def buildProps = readProperties file:buildPropertiesFile
 	
 	println ">>>>>>>>>>> ${buildProps[commitKey]}"
+	lsbCommitId = buildProps[commitKey]
 	
     if (!buildProps.containsKey(commitKey)) {
         println "Could not find what commit was used in the last successful CI build of target ${targetCIJob}."
@@ -143,6 +158,43 @@ def getLastSuccessfulCommitId(build) {
 			break
 		}
 	}****/
+}
+
+def getChangedFiles (firstCommit, secondCommit) {
+    final String changedFilesList = './changed_files.txt'
+    def myStatus = sh(returnStatus: true, script: "git diff --name-only ${firstCommit} ${secondCommit} > ${changedFilesList}")
+    if (myStatus != 0) {
+        println "Git failed getting the list of changed files."
+        return null
+    }
+    sh "wc -l ${changedFilesList}"
+    sh "cat ${changedFilesList}"
+    return readFile(changedFilesList).split("\n")
+}
+
+Boolean isOnlyAutomation(changedFiles) {
+
+    // If you can't determine, then the safest approach is to say no
+    if (!changedFiles) {
+        println "Warning: No list of changed files."
+        return false
+    }
+
+    for (int ii = 0; ii < changedFiles.size(); ii++) {
+        if (false == changedFiles[ii].startsWith("src")) {
+            println "Found diffs with non-automation file <${changedFiles[ii]}>."
+            return false
+        }
+    }
+
+    for (int ii = 0; ii < changedFiles.size(); ii++) {
+        if (changedFiles[ii].toLowerCase().contains('Jenkinsfile')) {
+            println "Found diffs with build script <${changedFiles[ii]}>."
+            return false
+        }
+    }
+
+    return true
 }
 
 //commit1
