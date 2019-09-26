@@ -20,7 +20,7 @@ node {
 		String myCommit = readFile('./commit_id').replaceAll('\\W', '')
 		println myCommit
 		
-		bat "echo BRANCH=3fde0df43603023269315c2fa816bed21d5aa360 > build.properties"
+		bat "echo BRANCH=${env.BRANCH_NAME} > build.properties"
 		bat "echo COMMIT=$myCommit >> build.properties"		
 		bat "echo DCPROTECT_MAC_INSTALLER=win.exe >> build.properties"
 		
@@ -47,11 +47,13 @@ node {
 	
 		buildStatus = getCIBuild(env.BRANCH_NAME,buildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
-		println "PR prop file: ${buildPropertiesFile}"
+		println "PR prop file:"
+		sh "cat ${BuildPropertiesFile}"
 		
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,buildPropertiesFile)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
-		println "CI prop file: ${buildPropertiesFile}"
+		println "CI prop file:"
+		sh "cat ${BuildPropertiesFile}"
 	}	
 		
 }
