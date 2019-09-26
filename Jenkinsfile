@@ -16,7 +16,7 @@ node {
 		println "${JENKINS_URL}"
 		println "${env.BRANCH_NAME}"
 		
-		def commit1 = sh "git rev-parse HEAD"
+		def commit1 = bat "git rev-parse HEAD"
 		println commit1
 		def c = "COMMIT=${commit1}"
 		println c
