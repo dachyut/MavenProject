@@ -78,7 +78,7 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile) {
 
     def buildProps = readProperties file:buildPropertiesFile
 	
-	println ">>>>>>>>>>> ${buildProps[COMMIT]}"
+	println ">>>>>>>>>>> ${buildProps[commitKey]}"
 	
     if (!buildProps.containsKey(commitKey)) {
         println "Could not find what commit was used in the last successful CI build of target ${targetCIJob}."
