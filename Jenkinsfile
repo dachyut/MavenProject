@@ -117,10 +117,12 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
     }
 
     //if (buildProps[commitKey] == getCommitHash("origin/${targetBranch}")) {
-	  if (buildProps[commitKey] == getCommitHash("origin/${sourceBranch}")) {
+	currentCommit = getCommitHash("origin/${sourceBranch}")
+	  if (buildProps[commitKey] == currentCommit) {
         println "The last successful CI build ${targetCIJob} is up to date."
     } else {
-        String[] changedFiles = getChangedFiles(buildProps[commitKey], "origin/${targetBranch}")
+        //String[] changedFiles = getChangedFiles(buildProps[commitKey], "origin/${targetBranch}")
+		String[] changedFiles = getChangedFiles(buildProps[commitKey], currentCommit)
         if (!isOnlyAutomation(changedFiles)) {
             println "Target branch ${targetBranch} has non-automation commits not included in the last successful CI build ${targetCIJob}."
             return false
