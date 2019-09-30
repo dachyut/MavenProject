@@ -65,13 +65,13 @@ node {
 		skipBuild = lsbCommitId
 		println "2>>>>>>>>> ${skipBuild}"
 		
-		/*println "3>>>>>>>>>>>>>>>>>>"
+		println "3>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.CHANGE_TARGET,BuildPropertiesFile)
 		println "${env.CHANGE_TARGET} build: ${buildStatus}"
 		println "--------${env.CHANGE_TARGET} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
-		println "3>>>>>>>>> ${skipBuild}"*/
+		println "3>>>>>>>>> ${skipBuild}"
 		
 	}			
 }
