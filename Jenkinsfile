@@ -70,8 +70,7 @@ node {
 		skipBuild = lsbCommitId
 		println "3>>>>>>>>> ${skipBuild}"
 		
-	}	
-		
+	}			
 }
 
 Boolean getCIBuild(targetBranch, buildPropertiesFile) {
@@ -126,6 +125,12 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile) {
 
     sh "mv ${buildPropertiesFile} ${env.WORKSPACE}"
     return true
+}
+
+def getCommitHash (branchName) {
+    sh "git rev-parse ${branchName} >.git/commit_id"
+    String myCommit = readFile('.git/commit_id').replaceAll('\\W', '')
+    return myCommit
 }
 
 @NonCPS
