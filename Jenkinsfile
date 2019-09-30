@@ -49,6 +49,7 @@ node {
 		println "****************************************************"
 		println "****************************************************"
 	
+		println "1>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
 		println "--------${env.BRANCH_NAME} prop file:"
@@ -56,6 +57,7 @@ node {
 		skipBuild = lsbCommitId
 		println "1>>>>>>>>> ${skipBuild}"
 		
+		println "2>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,BuildPropertiesFile)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
 		println "--------${env.CHANGE_BRANCH} prop file:"
@@ -63,6 +65,7 @@ node {
 		skipBuild = lsbCommitId
 		println "2>>>>>>>>> ${skipBuild}"
 		
+		println "3>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.CHANGE_TARGET,BuildPropertiesFile)
 		println "${env.CHANGE_TARGET} build: ${buildStatus}"
 		println "--------${env.CHANGE_TARGET} prop file:"
