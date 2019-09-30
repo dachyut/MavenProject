@@ -71,7 +71,7 @@ node {
 		println "--------${env.CHANGE_TARGET} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
-		println "3>>>>>>>>> ${skipBuild}"
+		println "3>>>>>>>>> ${skipBuild}"*/
 		
 	}			
 }
