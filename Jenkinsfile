@@ -210,7 +210,7 @@ Boolean isOnlyAutomation(changedFiles) {
             return false
         }
     }
-
+	println "**** End of isOnlyAutomation"
     return true
 }
 
