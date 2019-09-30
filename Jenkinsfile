@@ -192,6 +192,7 @@ Boolean isOnlyAutomation(changedFiles) {
     // If you can't determine, then the safest approach is to say no
     if (!changedFiles) {
         println "Warning: No list of changed files."
+		println "###### Non-Automation changes, Build Product #######"
         return false
     }
 
@@ -199,6 +200,7 @@ Boolean isOnlyAutomation(changedFiles) {
 		println "11111Found changed file <${changedFiles[ii]}>."
         if (false == changedFiles[ii].startsWith("src")) {
             println "Found diffs with non-automation file <${changedFiles[ii]}>."
+			println "###### Non-Automation changes, Build Product #######"
             return false
         }
     }
@@ -207,10 +209,11 @@ Boolean isOnlyAutomation(changedFiles) {
 		println "22222Found changed file <${changedFiles[ii]}>."
         if (changedFiles[ii].toLowerCase().contains('Jenkinsfile')) {
             println "Found diffs with build script <${changedFiles[ii]}>."
+			println "###### Non-Automation changes, Build Product #######"
             return false
         }
     }
-	println "**** End of isOnlyAutomation"
+	println "###### Automation changes, Copy from LSB #######"
     return true
 }
 
