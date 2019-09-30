@@ -50,7 +50,7 @@ node {
 		println "****************************************************"
 	
 		println "1>>>>>>>>>>>>>>>>>>"
-		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile)
+		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile,env.CHANGE_BRANCH)
 		println "${env.BRANCH_NAME} build: ${buildStatus}"
 		println "--------${env.BRANCH_NAME} prop file:"
 		sh "cat ${BuildPropertiesFile}"
@@ -58,7 +58,7 @@ node {
 		println "1>>>>>>>>> ${skipBuild}"
 		
 		println "2>>>>>>>>>>>>>>>>>>"
-		buildStatus = getCIBuild(env.CHANGE_BRANCH,BuildPropertiesFile)
+		buildStatus = getCIBuild(env.CHANGE_BRANCH,BuildPropertiesFile,env.CHANGE_TARGET)
 		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
 		println "--------${env.CHANGE_BRANCH} prop file:"
 		sh "cat ${BuildPropertiesFile}"
@@ -76,7 +76,7 @@ node {
 	}			
 }
 
-Boolean getCIBuild(targetBranch, buildPropertiesFile) {
+Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
     final String commitKey = 'COMMIT'
     final String artifactKey = 'DCPROTECT_MAC_INSTALLER'
     final String targetCIJob =  '//MultiBranchPipeline/' + targetBranch
@@ -116,7 +116,8 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile) {
         return false
     }
 
-    if (buildProps[commitKey] == getCommitHash("origin/${targetBranch}")) {
+    //if (buildProps[commitKey] == getCommitHash("origin/${targetBranch}")) {
+	  if (buildProps[commitKey] == getCommitHash("origin/${sourceBranch}")) {
         println "The last successful CI build ${targetCIJob} is up to date."
     } else {
         String[] changedFiles = getChangedFiles(buildProps[commitKey], "origin/${targetBranch}")
