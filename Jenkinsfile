@@ -128,8 +128,10 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
             return false
         }
     }
-
+	
+	println "**********"
     sh "mv ${buildPropertiesFile} ${env.WORKSPACE}"
+	println "**********"
     return true
 }
 
