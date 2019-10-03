@@ -117,8 +117,8 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
     }
 
 	println "*****************************"
-	println "buildProps[commitKey] = ${buildProps[commitKey]}"
-	println "getCommitHash[origin/${targetBranch}] = ${getCommitHash("origin/${targetBranch}")}"
+	println "buildProps[commitKey] = ${buildProps[commitKey]}"  //<--- this gives LSB commit id
+	//println "getCommitHash[origin/${targetBranch}] = ${getCommitHash("origin/${targetBranch}")}"
 	println "getCommitHash[origin/${sourceBranch}] = ${getCommitHash("origin/${sourceBranch}")}"
 	println "*****************************"
 
