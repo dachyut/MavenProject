@@ -133,8 +133,7 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
             println "Target branch ${targetBranch} has non-automation commits not included in the last successful CI build ${targetCIJob}."
             return false
         }
-    }
-	
+    }	
 	println "**********"
     //sh "mv ${buildPropertiesFile} ${env.WORKSPACE}"
 	println "**********"
