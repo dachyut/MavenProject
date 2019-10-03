@@ -51,7 +51,7 @@ node {
 	
 		println "1>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.BRANCH_NAME,BuildPropertiesFile,env.CHANGE_BRANCH)
-		println "${env.BRANCH_NAME} build: ${buildStatus}"
+		println "==============>${env.BRANCH_NAME} build: ${buildStatus}"
 		println "--------${env.BRANCH_NAME} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
@@ -59,7 +59,7 @@ node {
 		
 		println "2>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.CHANGE_BRANCH,BuildPropertiesFile,env.CHANGE_TARGET)
-		println "${env.CHANGE_BRANCH} build: ${buildStatus}"
+		println "==============>${env.CHANGE_BRANCH} build: ${buildStatus}"
 		println "--------${env.CHANGE_BRANCH} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
@@ -67,7 +67,7 @@ node {
 		
 		/*println "3>>>>>>>>>>>>>>>>>>"
 		buildStatus = getCIBuild(env.CHANGE_TARGET,BuildPropertiesFile)
-		println "${env.CHANGE_TARGET} build: ${buildStatus}"
+		println "==============>${env.CHANGE_TARGET} build: ${buildStatus}"
 		println "--------${env.CHANGE_TARGET} prop file:"
 		sh "cat ${BuildPropertiesFile}"
 		skipBuild = lsbCommitId
@@ -115,6 +115,12 @@ Boolean getCIBuild(targetBranch, buildPropertiesFile,sourceBranch) {
         println "Artifacts location does not exist or is unreachable for the last successful CI build of target ${targetCIJob}: ${buildProps[artifactKey]}"
         return false
     }
+
+	println "*****************************"
+	println "buildProps[commitKey] = ${buildProps[commitKey]}"
+	println "getCommitHash[origin/${targetBranch}] = ${getCommitHash("origin/${targetBranch}")}"
+	println "getCommitHash[origin/${sourceBranch}] = ${getCommitHash("origin/${sourceBranch}")}"
+	println "*****************************"
 
     //if (buildProps[commitKey] == getCommitHash("origin/${targetBranch}")) {
 	currentCommit = getCommitHash("origin/${sourceBranch}")
